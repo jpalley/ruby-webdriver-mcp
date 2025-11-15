@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Form Test Page</title>
+</head>
+<body>
+  <h1>Test Form</h1>
+  <form id="test-form" action="/submit" method="post">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" placeholder="Enter username">
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password">
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email">
+
+    <label for="comments">Comments:</label>
+    <textarea id="comments" name="comments"></textarea>
+
+    <input type="checkbox" id="agree" name="agree" value="yes">
+    <label for="agree">I agree to terms</label>
+
+    <button type="submit" id="submit-btn">Submit</button>
+  </form>
+  <div id="result"></div>
+</body>
+</html>

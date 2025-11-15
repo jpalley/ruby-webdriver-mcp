@@ -1,0 +1,65 @@
+# Production Docker Compose for Selenium WebDriver MCP Server
+# This runs the MCP server with Selenium in separate containers
+
+version: '3.8'
+
+services:
+  # MCP Server - exposes HTTP API for browser automation
+  mcp-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "4443:4443"  # MCP HTTP server
+    environment:
+      # Selenium configuration
+      SELENIUM_URL: http://selenium:4444/wd/hub
+      SELENIUM_BROWSER: chrome
+      SELENIUM_HEADLESS: "true"
+
+      # Server configuration
+      PORT: 4443
+      RACK_ENV: production
+    depends_on:
+      selenium:
+        condition: service_healthy
+    networks:
+      - mcp-network
+    restart: unless-stopped
+
+  # Selenium Grid - Chrome browser automation
+  selenium:
+    image: selenium/standalone-chrome:latest
+    ports:
+      - "4444:4444"  # Selenium WebDriver
+      - "7900:7900"  # VNC viewer (optional)
+    shm_size: 2gb
+    environment:
+      SE_NODE_MAX_SESSIONS: 10
+      SE_NODE_SESSION_TIMEOUT: 300
+      SE_VNC_NO_PASSWORD: 1  # For debugging via VNC
+    networks:
+      - mcp-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4444/wd/hub/status"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  mcp-network:
+    driver: bridge
+
+# To run:
+#   docker-compose -f docker-compose.production.yml up
+#
+# To test:
+#   curl http://localhost:4443/health
+#
+# MCP endpoints:
+#   - http://localhost:4443/mcp (JSON-RPC)
+#   - http://localhost:4443/sse (Server-Sent Events)
+#
+# VNC viewer (optional):
+#   vnc://localhost:7900 (password: secret)

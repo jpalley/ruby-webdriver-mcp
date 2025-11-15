@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "bundler/setup"
+require "selenium_webdriver_mcp"
+
+# Parse command line options
+selenium_url = ENV.fetch("SELENIUM_URL", nil)
+browser = ENV.fetch("BROWSER", "chrome").to_sym
+
+# Configure if environment variables are set
+SeleniumWebdriverMcp.configure do |config|
+  config.selenium_url = selenium_url if selenium_url
+  config.browser = browser
+end
+
+# Start the server using STDIO transport (for Claude Desktop)
+warn "Starting Selenium WebDriver MCP Server (STDIO mode)..."
+warn "Selenium URL: #{SeleniumWebdriverMcp.configuration.selenium_url}"
+warn "Browser: #{SeleniumWebdriverMcp.configuration.browser}"
+
+server = SeleniumWebdriverMcp::Server.new
+server.start

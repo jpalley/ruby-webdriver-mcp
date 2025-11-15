@@ -1,0 +1,49 @@
+{
+  "name": "Selenium WebDriver MCP Development",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspace",
+  "forwardPorts": [
+    3000, // MCP server
+    4444 // Selenium WebDriver
+  ],
+  "portsAttributes": {
+    "3000": {
+      "label": "MCP Server",
+      "onAutoForward": "notify"
+    },
+    "4444": {
+      "label": "Selenium WebDriver",
+      "onAutoForward": "silent"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "Shopify.ruby-lsp",
+        "rebornix.ruby",
+        "kaiwood.endwise",
+        "misogi.ruby-rubocop"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "editor.formatOnSave": true,
+        "editor.tabSize": 2,
+        "ruby.format": "rubocop",
+        "ruby.lint": {
+          "rubocop": true
+        }
+      }
+    }
+  },
+  "postCreateCommand": "bundle install && npm install -g @anthropic-ai/claude-code",
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers/features/node:1": {}
+  },
+  "mounts": [
+    "source=${localWorkspaceFolder}/.devcontainer/.bash_history,target=/home/vscode/.bash_history,type=bind",
+    "source=${localWorkspaceFolder}/.claude/.claude,target=/home/vscode/.claude,type=bind",
+    "source=${localWorkspaceFolder}/.claude/.claude.json,target=/home/vscode/.claude.json,type=bind"
+  ]
+}

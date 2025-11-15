@@ -1,0 +1,55 @@
+# Git
+.git
+.gitignore
+
+# Development files
+.devcontainer
+.vscode
+.claude
+
+# Test files
+spec/
+test/
+*.spec.rb
+*_spec.rb
+
+# Documentation (but keep README.md)
+*.md
+!README.md
+!LICENSE
+
+# Ruby/Bundler
+.bundle
+vendor/bundle
+.ruby-version
+.ruby-gemset
+
+# RSpec
+.rspec
+.rspec_status
+
+# Test artifacts
+coverage/
+tmp/
+log/
+
+# IDE
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Examples
+examples/
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+
+# Local env files
+.env.local
+.env.*.local

@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - ..:/workspace:cached
+    working_dir: /workspace
+    command: sleep infinity
+    depends_on:
+      - selenium
+    environment:
+      SELENIUM_URL: http://selenium:4444/wd/hub
+      RACK_ENV: development
+      RAILS_ENV: development
+    networks:
+      - devcontainer
+
+  selenium:
+    image: selenium/standalone-chromium
+    restart: unless-stopped
+    ports:
+      - "4444:4444"
+    shm_size: 2gb
+    environment:
+      SE_NODE_MAX_SESSIONS: 10
+      SE_NODE_SESSION_TIMEOUT: 300
+    networks:
+      - devcontainer
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4444/wd/hub/status"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  devcontainer:
+    driver: bridge

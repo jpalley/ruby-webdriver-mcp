@@ -1,0 +1,47 @@
+{
+  "name": "Rails 8 with Selenium MCP",
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspace",
+
+  "forwardPorts": [
+    3000,  // Rails app / MCP server
+    4444,  // Selenium WebDriver
+    7900   // VNC server (view browser)
+  ],
+
+  "portsAttributes": {
+    "3000": {
+      "label": "MCP Server",
+      "onAutoForward": "notify"
+    },
+    "4444": {
+      "label": "Selenium",
+      "onAutoForward": "silent"
+    },
+    "7900": {
+      "label": "VNC (Browser View)",
+      "onAutoForward": "silent"
+    }
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "Shopify.ruby-lsp",
+        "rebornix.ruby",
+        "kaiwood.endwise",
+        "misogi.ruby-rubocop"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "editor.formatOnSave": true,
+        "editor.tabSize": 2
+      }
+    }
+  },
+
+  "postCreateCommand": "bundle install",
+
+  "remoteUser": "root"
+}

@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  # Example Rails app service
+  app:
+    build:
+      context: ..
+      dockerfile: examples/Dockerfile
+    volumes:
+      - ..:/workspace:cached
+    ports:
+      - "3000:3000"
+    depends_on:
+      - selenium
+    environment:
+      SELENIUM_URL: http://selenium:4444/wd/hub
+    command: bundle exec selenium-mcp-server
+
+  # Selenium service with Chrome
+  selenium:
+    image: selenium/standalone-chrome:latest
+    ports:
+      - "4444:4444"
+      - "7900:7900"  # VNC server for viewing browser (password: secret)
+    shm_size: 2gb
+    environment:
+      SE_NODE_MAX_SESSIONS: 5
+      SE_NODE_SESSION_TIMEOUT: 300

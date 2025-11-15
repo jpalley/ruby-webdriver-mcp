@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JavaScript Test Page</title>
+  <script>
+    console.log("Page loaded");
+    console.warn("This is a warning");
+    console.error("This is an error");
+
+    function addNumbers(a, b) {
+      return a + b;
+    }
+
+    function updateContent() {
+      document.getElementById('dynamic-content').textContent = 'Updated!';
+    }
+
+    setTimeout(function() {
+      console.log("Delayed log message");
+    }, 100);
+  </script>
+</head>
+<body>
+  <h1>JavaScript Test Page</h1>
+  <div id="dynamic-content">Original Content</div>
+  <button id="update-btn" onclick="updateContent()">Update Content</button>
+</body>
+</html>
